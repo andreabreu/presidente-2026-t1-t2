@@ -1,0 +1,1262 @@
+version: 1
+hypotheses:
+- id: H01
+  title: Identidade aptos = comparecimento + abstenções por seção
+  class: documental
+  unit: secao
+  null_hypothesis: 'Em toda linha de detalhe_votacao_secao, QT_APTOS é exatamente igual a QT_COMPARECIMENTO
+    + QT_ABSTENCOES, para todo turno e cargo.
+
+    '
+  test:
+    method: igualdade_exata_por_linha
+    controls:
+    - NR_TURNO
+    - CD_CARGO
+    correction: nenhuma
+  data:
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+    - QT_COMPARECIMENTO
+    - QT_ABSTENCOES
+  expected_output_table: balance_aptos_secao
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Identidades corrigidas reproduzem fechamento exato em val_resumo.
+  script: python -m tse.validation
+  table: val_balanco_secao, val_inconsistencias, val_resumo
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Identidades corrigidas reproduzem fechamento exato em val_resumo.
+- id: H02
+  title: Identidade comparecimento = nominais + legenda + brancos + nulos por seção
+  class: documental
+  unit: secao
+  null_hypothesis: 'Em detalhe_votacao_secao, QT_COMPARECIMENTO é igual a QT_VOTOS_NOMINAIS + QT_VOTOS_LEGENDA
+    + QT_VOTOS_BRANCOS + QT_VOTOS_NULOS em todas as linhas; o resíduo é zero.
+
+    '
+  test:
+    method: igualdade_exata_por_linha_com_residuo
+    controls:
+    - NR_TURNO
+    - CD_CARGO
+    correction: nenhuma
+  data:
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_COMPARECIMENTO
+    - QT_VOTOS_NOMINAIS
+    - QT_VOTOS_LEGENDA
+    - QT_VOTOS_BRANCOS
+    - QT_VOTOS_NULOS
+  expected_output_table: balance_comparecimento_secao
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: A forma ingenua (1 voto/eleitor) falha em Senador; a forma com votos_por_eleitor fecha. Hipótese
+      nula literal é falsa; correção documental sustentada.
+  script: python -m tse.validation
+  table: val_balanco_secao, val_inconsistencias, val_resumo
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: A forma ingenua (1 voto/eleitor) falha em Senador; a forma com votos_por_eleitor fecha. Hipótese
+    nula literal é falsa; correção documental sustentada.
+- id: H03
+  title: Identidades de apuração em detalhe_votacao_munzona
+  class: documental
+  unit: zona
+  null_hypothesis: 'Em detalhe_votacao_munzona valem simultaneamente QT_APTOS = QT_COMPARECIMENTO + QT_ABSTENCOES
+    e QT_COMPARECIMENTO = QT_TOTAL_VOTOS_VALIDOS + QT_VOTOS_BRANCOS + QT_TOTAL_VOTOS_NULOS, com QT_VOTOS_NULOS
+    <= QT_TOTAL_VOTOS_NULOS.
+
+    '
+  test:
+    method: igualdade_exata_por_linha_com_residuo
+    controls:
+    - NR_TURNO
+    - CD_CARGO
+    correction: nenhuma
+  data:
+  - dataset: detalhe_votacao_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+    - QT_COMPARECIMENTO
+    - QT_ABSTENCOES
+    - QT_TOTAL_VOTOS_VALIDOS
+    - QT_VOTOS_BRANCOS
+    - QT_TOTAL_VOTOS_NULOS
+    - QT_VOTOS_NULOS
+  expected_output_table: balance_munzona
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Identidades corrigidas reproduzem fechamento exato em val_resumo.
+  script: python -m tse.validation
+  table: val_balanco_munzona, val_inconsistencias, val_resumo
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Identidades corrigidas reproduzem fechamento exato em val_resumo.
+- id: H04
+  title: Domínio dos contadores (não negatividade e comparecimento <= aptos)
+  class: documental
+  unit: secao
+  null_hypothesis: 'Nenhum campo QT_* é negativo e QT_COMPARECIMENTO <= QT_APTOS em todas as seções; nenhuma
+    proporção derivada sai do intervalo [0, 1].
+
+    '
+  test:
+    method: verificacao_de_dominio
+    controls: []
+    correction: nenhuma
+  data:
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - QT_APTOS
+    - QT_COMPARECIMENTO
+    - QT_ABSTENCOES
+    - QT_VOTOS_NOMINAIS
+    - QT_VOTOS_BRANCOS
+    - QT_VOTOS_NULOS
+    - QT_VOTOS_LEGENDA
+  - dataset: votacao_secao_2026_{UF|BR}
+    columns:
+    - QT_VOTOS
+  expected_output_table: domain_violations_secao
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Identidades corrigidas reproduzem fechamento exato em val_resumo.
+  script: python -m tse.validation
+  table: val_inconsistencias, val_limites_fisicos, val_resumo
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Identidades corrigidas reproduzem fechamento exato em val_resumo.
+- id: H05
+  title: Soma das seções reproduz detalhe por município/zona
+  class: documental
+  unit: zona
+  null_hypothesis: 'Para cada (SG_UF, CD_MUNICIPIO, NR_ZONA, NR_TURNO, CD_CARGO), a soma de QT_APTOS,
+    QT_COMPARECIMENTO, QT_ABSTENCOES, QT_VOTOS_BRANCOS e QT_VOTOS_NULOS em detalhe_votacao_secao coincide
+    com detalhe_votacao_munzona, e a contagem de seções coincide com QT_TOTAL_SECOES.
+
+    '
+  test:
+    method: agregacao_e_diferenca_absoluta_relativa
+    controls:
+    - NR_TURNO
+    - CD_CARGO
+    correction: nenhuma
+  data:
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+    - QT_COMPARECIMENTO
+    - QT_ABSTENCOES
+    - QT_VOTOS_BRANCOS
+    - QT_VOTOS_NULOS
+  - dataset: detalhe_votacao_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+    - QT_COMPARECIMENTO
+    - QT_ABSTENCOES
+    - QT_VOTOS_BRANCOS
+    - QT_TOTAL_VOTOS_NULOS
+    - QT_TOTAL_SECOES
+  expected_output_table: aggregation_secao_vs_munzona
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Identidades corrigidas reproduzem fechamento exato em val_resumo.
+  script: python -m tse.validation
+  table: val_agregacao_niveis, val_inconsistencias, val_resumo
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Identidades corrigidas reproduzem fechamento exato em val_resumo.
+- id: H06
+  title: Votos por candidato em seção somam o nominal de município/zona
+  class: documental
+  unit: zona
+  null_hypothesis: 'A soma de QT_VOTOS em votacao_secao por (SG_UF, CD_MUNICIPIO, NR_ZONA, NR_TURNO, CD_CARGO,
+    SQ_CANDIDATO) é igual a QT_VOTOS_NOMINAIS em votacao_candidato_munzona para a mesma chave.
+
+    '
+  test:
+    method: agregacao_e_diferenca_absoluta_relativa
+    controls:
+    - NR_TURNO
+    - CD_CARGO
+    correction: nenhuma
+  data:
+  - dataset: votacao_secao_2026_{UF|BR}
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - SQ_CANDIDATO
+    - NR_VOTAVEL
+    - QT_VOTOS
+  - dataset: votacao_candidato_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - CD_CARGO
+    - SQ_CANDIDATO
+    - QT_VOTOS_NOMINAIS
+  expected_output_table: aggregation_secao_vs_candidato_munzona
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Consistência entre fontes / BR vs BRASIL / legenda verificada nas tabelas val_*.
+  script: python -m tse.validation
+  table: val_divergencia_fontes, val_inconsistencias, val_resumo
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Consistência entre fontes / BR vs BRASIL / legenda verificada nas tabelas val_*.
+- id: H07
+  title: Soma dos nominais válidos dos candidatos reproduz o detalhe de zona
+  class: documental
+  unit: zona
+  null_hypothesis: 'A soma de QT_VOTOS_NOMINAIS_VALIDOS por candidato em votacao_candidato_munzona, agrupada
+    por (SG_UF, CD_MUNICIPIO, NR_ZONA, NR_TURNO, CD_CARGO), é igual a QT_VOTOS_NOMINAIS_VALIDOS em detalhe_votacao_munzona.
+
+    '
+  test:
+    method: agregacao_e_diferenca_absoluta_relativa
+    controls:
+    - NR_TURNO
+    - CD_CARGO
+    correction: nenhuma
+  data:
+  - dataset: votacao_candidato_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - CD_CARGO
+    - SQ_CANDIDATO
+    - QT_VOTOS_NOMINAIS_VALIDOS
+  - dataset: detalhe_votacao_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - CD_CARGO
+    - QT_VOTOS_NOMINAIS_VALIDOS
+  expected_output_table: aggregation_candidato_vs_detalhe_munzona
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Consistência entre fontes / BR vs BRASIL / legenda verificada nas tabelas val_*.
+  script: python -m tse.validation
+  table: val_divergencia_fontes, val_inconsistencias, val_resumo
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Consistência entre fontes / BR vs BRASIL / legenda verificada nas tabelas val_*.
+- id: H08
+  title: Presidente em BR coincide com Presidente em BRASIL
+  class: documental
+  unit: zona
+  null_hypothesis: 'As linhas de CD_CARGO = Presidente em votacao_candidato_munzona_2026_BRASIL são idênticas,
+    chave a chave e em QT_VOTOS_NOMINAIS, às linhas de votacao_candidato_munzona_2026_BR, em ambos os
+    turnos.
+
+    '
+  test:
+    method: anti_join_bidirecional_e_diferenca
+    controls:
+    - NR_TURNO
+    correction: nenhuma
+  data:
+  - dataset: votacao_candidato_munzona_2026_BR
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - CD_CARGO
+    - SQ_CANDIDATO
+    - QT_VOTOS_NOMINAIS
+  - dataset: votacao_candidato_munzona_2026_BRASIL
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - CD_CARGO
+    - SQ_CANDIDATO
+    - QT_VOTOS_NOMINAIS
+  expected_output_table: br_vs_brasil_presidente
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Consistência entre fontes / BR vs BRASIL / legenda verificada nas tabelas val_*.
+  script: python -m tse.validation
+  table: val_br_vs_brasil, val_inconsistencias, val_resumo
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Consistência entre fontes / BR vs BRASIL / legenda verificada nas tabelas val_*.
+- id: H09
+  title: Identidades de voto de legenda por partido
+  class: documental
+  unit: zona
+  null_hypothesis: 'Em votacao_partido_munzona, QT_TOTAL_VOTOS_LEG_VALIDOS = QT_VOTOS_LEGENDA_VALIDOS
+    + QT_VOTOS_NOM_CONVR_LEG_VALIDOS, e QT_VOTOS_NOMINAIS_VALIDOS do partido é igual à soma de QT_VOTOS_NOMINAIS_VALIDOS
+    dos candidatos do mesmo NR_PARTIDO na mesma chave.
+
+    '
+  test:
+    method: igualdade_exata_por_linha_e_agregacao
+    controls:
+    - NR_TURNO
+    - CD_CARGO
+    correction: nenhuma
+  data:
+  - dataset: votacao_partido_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - CD_CARGO
+    - NR_PARTIDO
+    - QT_VOTOS_LEGENDA_VALIDOS
+    - QT_VOTOS_NOM_CONVR_LEG_VALIDOS
+    - QT_TOTAL_VOTOS_LEG_VALIDOS
+    - QT_VOTOS_NOMINAIS_VALIDOS
+  - dataset: votacao_candidato_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - CD_CARGO
+    - NR_PARTIDO
+    - QT_VOTOS_NOMINAIS_VALIDOS
+  expected_output_table: legenda_identities_munzona
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Consistência entre fontes / BR vs BRASIL / legenda verificada nas tabelas val_*.
+  script: python -m tse.validation
+  table: val_divergencia_fontes, val_inconsistencias, val_legenda_partido, val_resumo
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Consistência entre fontes / BR vs BRASIL / legenda verificada nas tabelas val_*.
+- id: H10
+  title: Brancos e nulos em votacao_secao coincidem com detalhe_votacao_secao
+  class: documental
+  unit: secao
+  null_hypothesis: 'As linhas de votacao_secao cujo NM_VOTAVEL identifica voto branco e voto nulo somam,
+    por seção/turno/cargo, exatamente QT_VOTOS_BRANCOS e QT_VOTOS_NULOS de detalhe_votacao_secao.
+
+    '
+  test:
+    method: agregacao_e_diferenca_absoluta_relativa
+    controls:
+    - NR_TURNO
+    - CD_CARGO
+    correction: nenhuma
+  data:
+  - dataset: votacao_secao_2026_{UF|BR}
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - NR_VOTAVEL
+    - NM_VOTAVEL
+    - QT_VOTOS
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_VOTOS_BRANCOS
+    - QT_VOTOS_NULOS
+  expected_output_table: brancos_nulos_secao_cross
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Consistência entre fontes / BR vs BRASIL / legenda verificada nas tabelas val_*.
+  script: python -m tse.validation
+  table: val_divergencia_fontes, val_inconsistencias, val_resumo
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Consistência entre fontes / BR vs BRASIL / legenda verificada nas tabelas val_*.
+- id: H11
+  title: Comparecimento por seção segue a distribuição de referência da UF e porte
+  class: estatistico
+  unit: secao
+  null_hypothesis: 'A taxa QT_COMPARECIMENTO / QT_APTOS de cada seção provém da mesma distribuição das
+    seções da mesma UF e mesma faixa de QT_APTOS; a fração de seções além de |z_MAD| > limiar não excede
+    a esperada sob a referência.
+
+    '
+  test:
+    method: z_mad_por_estrato_e_percentil_empirico
+    controls:
+    - SG_UF
+    - faixa_qt_aptos
+    - NR_TURNO
+    correction: benjamini_hochberg
+  data:
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+    - QT_COMPARECIMENTO
+  expected_output_table: turnout_extremes_secao
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: Flags FDR existem mas cauda inferior/locais especiais dominam; sem controle socioeconômico.
+  script: src/tse/anomalies
+  table: anom_comparecimento
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: Flags FDR existem mas cauda inferior/locais especiais dominam; sem controle socioeconômico.
+- id: H12
+  title: Proporção de brancos e nulos por seção dentro da referência estratificada
+  class: estatistico
+  unit: secao
+  null_hypothesis: 'A proporção (QT_VOTOS_BRANCOS + QT_VOTOS_NULOS) / QT_COMPARECIMENTO por seção não
+    difere da distribuição de referência da mesma UF, cargo e faixa de aptos.
+
+    '
+  test:
+    method: z_mad_por_estrato_e_percentil_empirico
+    controls:
+    - SG_UF
+    - CD_CARGO
+    - faixa_qt_aptos
+    - NR_TURNO
+    correction: benjamini_hochberg
+  data:
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_COMPARECIMENTO
+    - QT_VOTOS_BRANCOS
+    - QT_VOTOS_NULOS
+  expected_output_table: blank_null_extremes_secao
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: Flags FDR existem mas cauda inferior/locais especiais dominam; sem controle socioeconômico.
+  script: src/tse/anomalies
+  table: anom_brancos_nulos
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: Flags FDR existem mas cauda inferior/locais especiais dominam; sem controle socioeconômico.
+- id: H13
+  title: Ausência de associação entre proporção de nulos e margem do líder
+  class: estatistico
+  unit: municipio
+  null_hypothesis: 'Controlando UF e porte, o coeficiente da proporção de nulos sobre a margem do candidato
+    mais votado (Presidente) por município não é distinguível de zero.
+
+    '
+  test:
+    method: regressao_linear_com_efeitos_fixos_uf_e_erros_robustos
+    controls:
+    - SG_UF
+    - faixa_qt_aptos
+    - NR_TURNO
+    correction: nenhuma
+  data:
+  - dataset: detalhe_votacao_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+    - QT_COMPARECIMENTO
+    - QT_TOTAL_VOTOS_NULOS
+    - QT_TOTAL_VOTOS_VALIDOS
+  - dataset: votacao_candidato_munzona_2026_BR
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_TURNO
+    - SQ_CANDIDATO
+    - QT_VOTOS_NOMINAIS_VALIDOS
+  expected_output_table: nulos_vs_margem_municipio
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: Flags FDR existem mas cauda inferior/locais especiais dominam; sem controle socioeconômico.
+  script: src/tse/anomalies
+  table: anom_nulos_margem
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: Flags FDR existem mas cauda inferior/locais especiais dominam; sem controle socioeconômico.
+- id: H14
+  title: Abstenção municipal dentro da referência estadual
+  class: estatistico
+  unit: municipio
+  null_hypothesis: 'A taxa QT_ABSTENCOES / QT_APTOS agregada por município provém da mesma distribuição
+    dos municípios da mesma UF e faixa de aptos.
+
+    '
+  test:
+    method: z_mad_por_estrato_e_percentil_empirico
+    controls:
+    - SG_UF
+    - faixa_qt_aptos
+    - NR_TURNO
+    correction: benjamini_hochberg
+  data:
+  - dataset: detalhe_votacao_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+    - QT_ABSTENCOES
+  expected_output_table: abstention_extremes_municipio
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: Tabelas turnout/cobertura/timestamps presentes; H14 descritivo de participação.
+  script: python -m tse.turnout
+  table: turnout_mun
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: Tabelas turnout/cobertura/timestamps presentes; H14 descritivo de participação.
+- id: H15
+  title: Eleitorado apto por seção estável entre 1º e 2º turno
+  class: documental
+  unit: secao
+  null_hypothesis: 'Para cada seção presente em ambos os turnos (Presidente), QT_APTOS do 2º turno é igual
+    ao do 1º turno; divergências são enumeradas com magnitude.
+
+    '
+  test:
+    method: join_por_secao_e_diferenca
+    controls:
+    - SG_UF
+    correction: nenhuma
+  data:
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+    - ST_SECAO_INSTALADA
+  expected_output_table: aptos_stability_secao_t1_t2
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Estabilidade de aptos entre turnos verificada na tabela dedicada.
+  script: python -m tse.swing
+  table: swing_aptos_estabilidade
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Estabilidade de aptos entre turnos verificada na tabela dedicada.
+- id: H16
+  title: Retenção de votos dos finalistas entre turnos por município
+  class: estatistico
+  unit: municipio
+  null_hypothesis: 'Para cada finalista do 2º turno (Presidente), a diferença entre votos no 2º e no 1º
+    turno por município é não negativa ou, quando negativa, está dentro da variação explicada pela queda
+    de comparecimento do município.
+
+    '
+  test:
+    method: delta_absoluto_percentual_com_ajuste_por_comparecimento
+    controls:
+    - SG_UF
+    - faixa_qt_aptos
+    correction: benjamini_hochberg
+  data:
+  - dataset: votacao_candidato_munzona_2026_BR
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - SQ_CANDIDATO
+    - QT_VOTOS_NOMINAIS_VALIDOS
+  - dataset: detalhe_votacao_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - CD_CARGO
+    - QT_COMPARECIMENTO
+  expected_output_table: swing_retention_municipio
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: Estimativas ecológicas sustentadas como intervalos agregados; não como fluxo individual.
+  script: python -m tse.swing
+  table: swing_saldos_mun
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: Estimativas ecológicas sustentadas como intervalos agregados; não como fluxo individual.
+- id: H17
+  title: Resíduos da regressão ecológica de virada dentro do esperado
+  class: estatistico
+  unit: municipio
+  null_hypothesis: 'Regredindo o ganho de cada finalista entre turnos sobre os votos de 1º turno dos candidatos
+    eliminados e a variação de comparecimento, dentro de cada UF, os resíduos padronizados dos municípios
+    seguem a distribuição de referência; a fração de resíduos extremos após FDR não excede a esperada.
+
+    '
+  test:
+    method: regressao_ecologica_por_uf_com_residuos_padronizados
+    controls:
+    - SG_UF
+    - faixa_qt_aptos
+    - variacao_comparecimento
+    correction: benjamini_hochberg
+  data:
+  - dataset: votacao_candidato_munzona_2026_BR
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - SQ_CANDIDATO
+    - QT_VOTOS_NOMINAIS_VALIDOS
+  - dataset: detalhe_votacao_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_TURNO
+    - CD_CARGO
+    - QT_COMPARECIMENTO
+    - QT_APTOS
+  expected_output_table: swing_residuals_municipio
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: 144 resíduos com q_fdr<0,05 após controles; requer contexto territorial, não prova irregularidade.
+  script: python -m tse.swing
+  table: swing_residuos_flag
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: 144 resíduos com q_fdr<0,05 após controles; requer contexto territorial, não prova irregularidade.
+- id: H18
+  title: Limites ecológicos de transferência coerentes entre níveis de agregação
+  class: estatistico
+  unit: secao
+  null_hypothesis: 'Os limites mínimo e máximo de transferência eliminado -> finalista calculados por
+    seção, quando agregados, contêm os limites calculados diretamente por município e por UF; nenhuma
+    estimativa pontual publicada fica fora do intervalo.
+
+    '
+  test:
+    method: limites_de_transferencia_min_max_por_unidade_e_agregacao
+    controls:
+    - SG_UF
+    - NR_TURNO
+    correction: nenhuma
+  data:
+  - dataset: votacao_secao_2026_BR
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - SQ_CANDIDATO
+    - NR_VOTAVEL
+    - QT_VOTOS
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_COMPARECIMENTO
+  expected_output_table: transfer_bounds_by_level
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: Estimativas ecológicas sustentadas como intervalos agregados; não como fluxo individual.
+  script: python -m tse.swing
+  table: swing_bounds_uf
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: Estimativas ecológicas sustentadas como intervalos agregados; não como fluxo individual.
+- id: H19
+  title: Variação de comparecimento 1º -> 2º turno por seção dentro da referência
+  class: estatistico
+  unit: secao
+  null_hypothesis: 'A diferença de taxa de comparecimento entre turnos por seção segue a distribuição
+    das seções da mesma UF e faixa de aptos; extremos não excedem o esperado após FDR.
+
+    '
+  test:
+    method: z_mad_por_estrato_e_percentil_empirico
+    controls:
+    - SG_UF
+    - faixa_qt_aptos
+    correction: benjamini_hochberg
+  data:
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+    - QT_COMPARECIMENTO
+  expected_output_table: turnout_change_secao_t1_t2
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: Estimativas ecológicas sustentadas como intervalos agregados; não como fluxo individual.
+  script: python -m tse.swing
+  table: swing_saldos_secao
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: Estimativas ecológicas sustentadas como intervalos agregados; não como fluxo individual.
+- id: H20
+  title: Eleitorado apto não excede população municipal com 16 anos ou mais
+  class: estatistico
+  unit: municipio
+  null_hypothesis: 'Para todo município, QT_APTOS agregado (1º turno, Presidente) dividido pela população
+    IBGE com 16 anos ou mais é menor ou igual a 1 mais a tolerância declarada no config; excedentes são
+    listados com magnitude.
+
+    '
+  test:
+    method: razao_com_tolerancia_e_lista_de_excedentes
+    controls:
+    - SG_UF
+    correction: nenhuma
+  data:
+  - dataset: detalhe_votacao_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NM_MUNICIPIO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+  - dataset: ibge_populacao_municipal (externo, data/external; esquema definido na Fase 3)
+    columns: []
+  expected_output_table: aptos_vs_pop16_municipio
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: Razões aptos/pop extremos existem; interpretação demográfica/cadastral, não forense.
+  script: python -m tse.demography.metrics
+  table: demo_aptos_pop
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: Razões aptos/pop extremos existem; interpretação demográfica/cadastral, não forense.
+- id: H21
+  title: Razão aptos / população total dentro da referência estadual
+  class: estatistico
+  unit: municipio
+  null_hypothesis: 'A razão QT_APTOS / população total IBGE por município provém da mesma distribuição
+    dos municípios da mesma UF e porte populacional.
+
+    '
+  test:
+    method: z_mad_por_estrato_e_percentil_empirico
+    controls:
+    - SG_UF
+    - faixa_populacao
+    correction: benjamini_hochberg
+  data:
+  - dataset: detalhe_votacao_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NM_MUNICIPIO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+  - dataset: ibge_populacao_municipal (externo, data/external; esquema definido na Fase 3)
+    columns: []
+  expected_output_table: aptos_vs_pop_total_municipio
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: Razões aptos/pop extremos existem; interpretação demográfica/cadastral, não forense.
+  script: python -m tse.demography.metrics
+  table: demo_aptos_pop
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: Razões aptos/pop extremos existem; interpretação demográfica/cadastral, não forense.
+- id: H22
+  title: Comparecimento / população com 16 anos ou mais dentro da referência
+  class: estatistico
+  unit: municipio
+  null_hypothesis: 'A razão QT_COMPARECIMENTO / população com 16 anos ou mais por município não excede
+    1 e segue a distribuição de referência da UF e porte.
+
+    '
+  test:
+    method: razao_com_tolerancia_e_z_mad_por_estrato
+    controls:
+    - SG_UF
+    - faixa_populacao
+    - NR_TURNO
+    correction: benjamini_hochberg
+  data:
+  - dataset: detalhe_votacao_munzona_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_COMPARECIMENTO
+  - dataset: ibge_populacao_municipal (externo, data/external; esquema definido na Fase 3)
+    columns: []
+  expected_output_table: comparecimento_vs_pop16_municipio
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: Razões aptos/pop extremos existem; interpretação demográfica/cadastral, não forense.
+  script: python -m tse.demography.metrics
+  table: demo_aptos_pop
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: Razões aptos/pop extremos existem; interpretação demográfica/cadastral, não forense.
+- id: H23
+  title: Frequência de seções quase unânimes compatível com a referência municipal
+  class: estatistico
+  unit: secao
+  null_hypothesis: 'O número de seções em que um candidato (Presidente) recebe fração >= near_unanimous_share
+    dos votos nominais com pelo menos min_votes_unanimous votos não excede o esperado dado a distribuição
+    de frações das demais seções do mesmo município.
+
+    '
+  test:
+    method: contagem_de_excedentes_vs_esperado_binomial_por_municipio
+    controls:
+    - CD_MUNICIPIO
+    - NR_TURNO
+    correction: benjamini_hochberg
+  data:
+  - dataset: votacao_secao_2026_BR
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - SQ_CANDIDATO
+    - NR_VOTAVEL
+    - QT_VOTOS
+  expected_output_table: near_unanimous_secao
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: FRÁGIL
+    notes: Excesso municipal de unanimidade existe numericamente, mas concentra-se em locais especiais/indígenas;
+      nulo binomial superestima raridade.
+  script: src/tse/anomalies
+  table: anom_unanime_municipio
+  verdict: FRÁGIL
+  reviewed_by: agente_8
+  notes: Excesso municipal de unanimidade existe numericamente, mas concentra-se em locais especiais/indígenas;
+    nulo binomial superestima raridade.
+- id: H24
+  title: Carimbos de geração e totalização coerentes entre arquivos
+  class: documental
+  unit: uf
+  null_hypothesis: 'Dentro de cada pacote, DT_GERACAO/HH_GERACAO são únicos por arquivo, e DT_ULTIMA_TOTALIZACAO/HH_ULTIMA_TOTALIZACAO
+    em detalhe_votacao_munzona não são posteriores à geração do arquivo correspondente.
+
+    '
+  test:
+    method: contagem_de_valores_distintos_e_comparacao_temporal
+    controls:
+    - SG_UF
+    - NR_TURNO
+    correction: nenhuma
+  data:
+  - dataset: detalhe_votacao_munzona_2026
+    columns:
+    - SG_UF
+    - NR_TURNO
+    - DT_ULTIMA_TOTALIZACAO
+    - HH_ULTIMA_TOTALIZACAO
+  - dataset: votacao_candidato_munzona_2026
+    columns:
+    - SG_UF
+    - DT_GERACAO
+    - HH_GERACAO
+  - dataset: votacao_secao_2026_{UF|BR}
+    columns:
+    - SG_UF
+    - DT_GERACAO
+    - HH_GERACAO
+  expected_output_table: timestamp_consistency
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Tabelas turnout/cobertura/timestamps presentes; H14 descritivo de participação.
+  script: python -m tse.validation
+  table: val_inconsistencias, val_resumo, val_timestamps
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Tabelas turnout/cobertura/timestamps presentes; H14 descritivo de participação.
+- id: H25
+  title: Similaridade entre pares de seções do mesmo município dentro do esperado
+  class: estatistico
+  unit: secao
+  null_hypothesis: 'A frequência de pares de seções distintas do mesmo município com vetor de votos por
+    candidato (Presidente) idêntico ou de similaridade cosseno acima do limiar não excede a obtida por
+    permutação dentro do município.
+
+    '
+  test:
+    method: similaridade_cosseno_por_par_com_nulo_por_permutacao
+    controls:
+    - CD_MUNICIPIO
+    - NR_TURNO
+    - faixa_qt_aptos
+    correction: benjamini_hochberg
+  data:
+  - dataset: votacao_secao_2026_BR
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - SQ_CANDIDATO
+    - NR_VOTAVEL
+    - QT_VOTOS
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+  expected_output_table: duplicate_section_pairs
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: REFUTADO
+    notes: Taxa de gêmeas não excede nulo permutacional de forma significativa por município.
+  script: src/tse/anomalies
+  table: anom_gemeas_municipio
+  verdict: REFUTADO
+  reviewed_by: agente_8
+  notes: Taxa de gêmeas não excede nulo permutacional de forma significativa por município.
+- id: H26
+  title: Métricas de seção não diferem entre modelos de urna após controles
+  class: estatistico
+  unit: secao
+  null_hypothesis: 'Controlando UF e faixa de aptos, as médias de comparecimento, brancos, nulos e margem
+    do líder não diferem entre categorias de CD_MODELO_URNA. Análise descritiva; não implica causalidade.
+
+    '
+  test:
+    method: comparacao_de_medias_por_estrato_com_efeitos_fixos_e_tamanho_de_efeito
+    controls:
+    - SG_UF
+    - faixa_qt_aptos
+    - NR_TURNO
+    correction: benjamini_hochberg
+  data:
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - CD_MODELO_URNA
+    - DS_MODELO_URNA
+    - QT_APTOS
+    - QT_COMPARECIMENTO
+    - QT_VOTOS_BRANCOS
+    - QT_VOTOS_NULOS
+  - dataset: votacao_secao_2026_BR
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - SQ_CANDIDATO
+    - NR_VOTAVEL
+    - QT_VOTOS
+  expected_output_table: urn_model_descriptive
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: INCONCLUSIVO
+    notes: Modelo de urna só descritivo; sem desenho causal nem BU.
+  script: python -m tse.turnout
+  table: desc_modelo_urna
+  verdict: INCONCLUSIVO
+  reviewed_by: agente_8
+  notes: Modelo de urna só descritivo; sem desenho causal nem BU.
+- id: H27
+  title: Seções não instaladas ou anuladas sem votos registrados
+  class: documental
+  unit: secao
+  null_hypothesis: 'Toda seção com ST_SECAO_INSTALADA indicando não instalada tem QT_COMPARECIMENTO =
+    0 e nenhuma linha com QT_VOTOS > 0 em votacao_secao; seções com ST_SECAO_ANULADA marcada são listadas
+    com seus totais.
+
+    '
+  test:
+    method: join_de_flags_com_totais_e_lista_de_violacoes
+    controls:
+    - NR_TURNO
+    - CD_CARGO
+    correction: nenhuma
+  data:
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - ST_SECAO_INSTALADA
+    - ST_SECAO_ANULADA
+    - QT_COMPARECIMENTO
+  - dataset: votacao_secao_2026_{UF|BR}
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_VOTOS
+  expected_output_table: uninstalled_annulled_sections
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Identidades corrigidas reproduzem fechamento exato em val_resumo.
+  script: python -m tse.validation
+  table: val_inconsistencias, val_limites_fisicos, val_resumo
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Identidades corrigidas reproduzem fechamento exato em val_resumo.
+- id: H28
+  title: Último dígito dos votos por seção uniformemente distribuído
+  class: estatistico
+  unit: uf
+  null_hypothesis: 'Para seções com QT_VOTOS >= limiar mínimo, o último dígito de QT_VOTOS dos finalistas
+    (Presidente) é uniforme em {0..9} dentro de cada UF. Teste aplicado somente ao nível de seção; não
+    se aplica a totais municipais.
+
+    '
+  test:
+    method: qui_quadrado_de_uniformidade_por_uf
+    controls:
+    - SG_UF
+    - NR_TURNO
+    - SQ_CANDIDATO
+    correction: benjamini_hochberg
+  data:
+  - dataset: votacao_secao_2026_BR
+    columns:
+    - SG_UF
+    - NR_TURNO
+    - NR_SECAO
+    - SQ_CANDIDATO
+    - NR_VOTAVEL
+    - QT_VOTOS
+  expected_output_table: last_digit_uniformity_uf
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: REFUTADO
+    notes: Desvios de último dígito são artefato de n grande / contagens pequenas; efeito mediano ~0,01
+      com limiar 100. Não entra no risk_score.
+  script: src/tse/anomalies
+  table: anom_ultimo_digito
+  verdict: REFUTADO
+  reviewed_by: agente_8
+  notes: Desvios de último dígito são artefato de n grande / contagens pequenas; efeito mediano ~0,01
+    com limiar 100. Não entra no risk_score.
+- id: H29
+  title: Cadastro de candidatos cobre todos os votáveis dos arquivos de votação
+  class: documental
+  unit: uf
+  null_hypothesis: 'Todo SQ_CANDIDATO presente em votacao_candidato_munzona e votacao_secao existe em
+    consulta_cand com o mesmo NR_CANDIDATO, SG_PARTIDO e CD_CARGO, e DS_SIT_TOT_TURNO é idêntico entre
+    votacao_candidato_munzona e consulta_cand.
+
+    '
+  test:
+    method: anti_join_e_comparacao_de_atributos
+    controls:
+    - SG_UF
+    - NR_TURNO
+    - CD_CARGO
+    correction: nenhuma
+  data:
+  - dataset: consulta_cand_2026
+    columns:
+    - SG_UF
+    - NR_TURNO
+    - CD_CARGO
+    - SQ_CANDIDATO
+    - NR_CANDIDATO
+    - SG_PARTIDO
+    - DS_SIT_TOT_TURNO
+  - dataset: votacao_candidato_munzona_2026
+    columns:
+    - SG_UF
+    - NR_TURNO
+    - CD_CARGO
+    - SQ_CANDIDATO
+    - NR_CANDIDATO
+    - SG_PARTIDO
+    - DS_SIT_TOT_TURNO
+  - dataset: votacao_secao_2026_{UF|BR}
+    columns:
+    - SG_UF
+    - NR_TURNO
+    - CD_CARGO
+    - SQ_CANDIDATO
+    - NR_VOTAVEL
+  expected_output_table: candidate_registry_coverage
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Tabelas turnout/cobertura/timestamps presentes; H14 descritivo de participação.
+  script: python -m tse.validation
+  table: val_cobertura_cand, val_inconsistencias, val_resumo
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Tabelas turnout/cobertura/timestamps presentes; H14 descritivo de participação.
+- id: H30
+  title: Tamanho das seções (aptos) dentro de faixa plausível e sem seções vazias com votos
+  class: documental
+  unit: secao
+  null_hypothesis: 'QT_APTOS por seção fica dentro da faixa observada por UF sem valores iguais a zero
+    acompanhados de QT_COMPARECIMENTO > 0; a distribuição de QT_APTOS é descrita por UF com percentis.
+
+    '
+  test:
+    method: percentis_por_uf_e_lista_de_violacoes
+    controls:
+    - SG_UF
+    - NR_TURNO
+    correction: nenhuma
+  data:
+  - dataset: detalhe_votacao_secao_2026
+    columns:
+    - SG_UF
+    - CD_MUNICIPIO
+    - NR_ZONA
+    - NR_SECAO
+    - NR_TURNO
+    - CD_CARGO
+    - QT_APTOS
+    - QT_COMPARECIMENTO
+    - NR_LOCAL_VOTACAO
+  expected_output_table: section_size_distribution
+  status: reviewed
+  refutation_attempts:
+  - by: agente_8
+    result: SUSTENTADO
+    notes: Identidades corrigidas reproduzem fechamento exato em val_resumo.
+  script: python -m tse.validation
+  table: val_inconsistencias, val_limites_fisicos, val_resumo
+  verdict: SUSTENTADO
+  reviewed_by: agente_8
+  notes: Identidades corrigidas reproduzem fechamento exato em val_resumo.

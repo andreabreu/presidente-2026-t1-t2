@@ -1,0 +1,54 @@
+project_root: ..
+downloads_dir: ../downloads
+interim_dir: data/interim
+external_dir: data/external
+outputs_dir: outputs
+seed: 20261028
+thresholds:
+  fdr_q: 0.05
+  mad_z_outlier: 3.5
+  near_unanimous_share: 0.98
+  min_votes_unanimous: 100
+  sensitivity_pct: 0.20
+descriptive:
+  top_n_candidates_national: 30
+  top_n_candidates_uf: 20
+  detail_ufs: [SP, RJ, MG]
+turnout:
+  top_bottom_n: 30
+  min_aptos_ranking: 1000
+  nr_votavel_branco: 95
+  nr_votavel_nulo: 96
+demography:
+  porte_quantiles: [0.25, 0.5, 0.75, 0.9]
+  porte_labels: [P1_menor, P2, P3, P4, P5_maior]
+  aptos_pop16_tolerance: 0.0
+  min_strata_size: 10
+anomalies:
+  min_aptos_tested: 50
+  aptos_bins: [50, 200, 300, 400]
+  min_valid_votes_unanimous: 100
+  min_count_last_digit: [10, 100]
+  min_observations_last_digit: 50
+  twins_min_comparecimento: 100
+  twins_permutations: 200
+  twins_permutations_proporcional: 20
+  risk_component_q_cutoff: 0.10
+  fingerprint_bins: 40
+  special_place_pattern: "PRES[IÍ]DIO|PENITENCI|CADEIA P|UNIDADE PRISIONAL|CENTRO DE DETEN|SOCIOEDUC|HOSPITAL|ALDEIA|IND[IÍ]GENA|QUILOMB|ASILO|SANAT[OÓ]RIO|CASA DE SA[UÚ]DE|QUARTEL|BATALH[AÃ]O"
+  risk_weights:
+    divergencia_fontes: 0.30
+    residuo_virada: 0.25
+    comparecimento_extremo: 0.15
+    unanimidade: 0.15
+    nulos_x_share: 0.10
+    demografia_impossivel: 0.05
+report:
+  output_html: outputs/report.html
+  max_rows_secao: 2000
+  max_rows_default: 20000
+  page_size: 25
+  plotly_version: 2.35.2
+  row_limits:
+    swing_bounds_mun: 5000
+    val_inconsistencias: 2000

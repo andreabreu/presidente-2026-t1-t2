@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Estudo 1º × 2º turno — Presidente 2026</title>
+<script>
+__PLOTLY__
+</script>
+<style>
+:root{--bg:#0b1220;--card:#131f33;--line:#26364f;--text:#e6edf7;--muted:#91a3bd;--lula:#e35d6a;--flavio:#4d8dff;--ok:#3ecf8e;--warn:#f0b429;--bn:#9aa5b8;--abs:#8b6cff}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
+a{color:#7fb6ff}
+nav{position:sticky;top:0;z-index:30;background:#0d1728f2;backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;gap:.2rem;flex-wrap:wrap;padding:.45rem 1rem}
+nav a{color:var(--muted);text-decoration:none;font-size:12.5px;padding:.25rem .55rem;border-radius:6px}
+nav a:hover{background:#1c2b45;color:var(--text)}
+header{padding:2.2rem 1.5rem 1.4rem;background:radial-gradient(1200px 400px at 10% -20%,#24345a 0,transparent 60%),linear-gradient(180deg,#101b30,#0b1220)}
+header h1{margin:0 0 .3rem;font-size:1.9rem;letter-spacing:-.01em}
+header p{margin:.2rem 0;color:var(--muted);max-width:980px}
+main{max-width:1240px;margin:0 auto;padding:0 1.25rem 3rem}
+section{margin-top:2.4rem}
+section>h2{font-size:1.35rem;margin:0 0 .3rem;padding-top:.4rem;border-top:1px solid var(--line)}
+section>h2 .n{color:var(--muted);font-weight:500;margin-right:.4rem}
+.lead{color:#c9d5e6;max-width:1000px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.7rem;margin:1rem 0}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.8rem .9rem}
+.kpi .v{font-size:1.4rem;font-weight:700;letter-spacing:-.01em}
+.kpi .l{color:var(--muted);font-size:12.5px}
+.kpi.lula .v{color:var(--lula)}.kpi.flavio .v{color:var(--flavio)}.kpi.ok .v{color:var(--ok)}.kpi.warn .v{color:var(--warn)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:980px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.6rem .7rem .8rem;min-width:0}
+.card h3{margin:.2rem .2rem .4rem;font-size:.98rem}
+.card .sub{color:var(--muted);font-size:12.5px;margin:-.2rem .2rem .3rem}
+.chart{width:100%;height:360px}
+.chart.tall{height:460px}
+.chart.xtall{height:620px}
+.box{border-radius:12px;padding:1rem 1.1rem;margin:1rem 0;border:1px solid}
+.box.answer{background:#13241c;border-color:#2c5a43}
+.box.warn{background:#2a2312;border-color:#5f4c1c}
+.box.info{background:#132036;border-color:#2b4571}
+.box h3{margin:.1rem 0 .5rem;font-size:1rem}
+.box ol,.box ul{margin:.3rem 0 .2rem;padding-left:1.3rem}
+.box li{margin:.25rem 0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:.4rem .5rem;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child,th.l,td.l{text-align:left}
+th{color:var(--muted);font-weight:600;position:sticky;top:0;background:#16243b}
+.tbl{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.tag{display:inline-block;padding:.05rem .45rem;border-radius:999px;font-size:11.5px;border:1px solid var(--line)}
+.tag.sim{background:#3a2414;border-color:#6b4520;color:#ffcf9a}
+.tag.nao{background:#123222;border-color:#245a3d;color:#9ff0c6}
+.pos{color:var(--ok)}.neg{color:#ff8a8a}
+.muted{color:var(--muted)}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.8rem;margin-top:1rem}
+.verdict .card p{margin:.3rem .2rem;color:#c9d5e6;font-size:14px}
+footer{max-width:1240px;margin:0 auto;padding:1.5rem 1.25rem 3rem;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line)}
+code{background:#1a2840;padding:.05rem .3rem;border-radius:4px;font-size:12.5px}
+</style>
+</head>
+<body>
+<nav>
+  <a href="#resumo">Resumo</a><a href="#placar">Placar</a><a href="#aritmetica">Aritmética</a>
+  <a href="#abstencao">Abstenção</a><a href="#transferencia">Transferências</a><a href="#troca">Troca direta</a>
+  <a href="#uf">Estados</a><a href="#municipios">Municípios</a><a href="#urnas">Urnas zeradas</a>
+  <a href="#tempo">Linha do tempo</a><a href="#anomalias">Anomalias</a>
+  <a href="#conclusao">Conclusão</a>
+</nav>
+<header>
+  <h1>Presidente 2026 — o que mudou do 1º para o 2º turno</h1>
+  <p>Estudo completo com os dados abertos do TSE (seção, zona, município e boletins de urna): virada, transferência de votos, abstenções retomadas, urnas com voto concentrado, linha do tempo da apuração e anomalias estatísticas.</p>
+  <p class="muted">Gerado em <span data-v="gerado_em" data-f="raw"></span>. Todos os números abaixo são calculados a partir dos arquivos oficiais; estimativas de modelo são sempre marcadas como tal.</p>
+</header>
+<main>
+
+<section id="resumo">
+  <h2><span class="n">0</span>Resposta curta</h2>
+  <div class="box answer">
+    <h3>O que os dados mostram</h3>
+    <ol>
+      <li><b>A virada foi de <span data-v="nacional.deslocamento_margem" data-f="int"></span> votos na margem.</b> Flávio liderou o 1º turno por <span data-v="nacional.margem_t1" data-f="absint"></span>; Lula venceu o 2º por <span data-v="nacional.margem_t2" data-f="int"></span>.</li>
+      <li><b>Os dois finalistas ganharam votos.</b> Lula +<span data-v="nacional.ganho_lula" data-f="int"></span>, Flávio +<span data-v="nacional.ganho_flavio" data-f="int"></span>. Não é preciso nenhum eleitor ter trocado de Flávio para Lula para explicar o resultado.</li>
+      <li><b>A virada veio dos votos "soltos"</b>: <span data-v="nacional.pool" data-f="mi"></span> de eliminados, de brancos e nulos e de quem voltou a votar. Lula ficou com <span data-v="nacional.share_pool_lula" data-f="pct"></span> deles; precisava de <span data-v="nacional.share_pool_necessario_lula" data-f="pct"></span>.</li>
+      <li><b>Pelo menos <span data-v="nacional.retornos_min_secao" data-f="mi"></span> de eleitores apareceram no 2º turno</b> nas urnas onde o comparecimento subiu (saldo líquido: +<span data-v="nacional.delta_comparecimento" data-f="int"></span>).</li>
+      <li><b>Os padrões observados são estáveis no tempo.</b> As urnas com zero voto para Flávio já eram assim no 1º turno; o comportamento das urnas não muda ao longo da apuração. O fato operacional que merece explicação é a <b>pausa de 116 minutos</b> na recepção dos boletins.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="placar">
+  <h2><span class="n">1</span>Placar: 1º × 2º turno</h2>
+  <div class="kpis">
+    <div class="kpi flavio"><div class="v" data-v="nacional.flavio_t1" data-f="int"></div><div class="l">Flávio — 1º turno</div></div>
+    <div class="kpi flavio"><div class="v" data-v="nacional.flavio_t2" data-f="int"></div><div class="l">Flávio — 2º turno</div></div>
+    <div class="kpi lula"><div class="v" data-v="nacional.lula_t1" data-f="int"></div><div class="l">Lula — 1º turno</div></div>
+    <div class="kpi lula"><div class="v" data-v="nacional.lula_t2" data-f="int"></div><div class="l">Lula — 2º turno</div></div>
+    <div class="kpi"><div class="v" data-v="nacional.turnout.t1.QT_COMPARECIMENTO" data-f="int"></div><div class="l">Comparecimento T1</div></div>
+    <div class="kpi"><div class="v" data-v="nacional.turnout.t2.QT_COMPARECIMENTO" data-f="int"></div><div class="l">Comparecimento T2</div></div>
+    <div class="kpi"><div class="v" data-v="nacional.turnout.t1.QT_ABSTENCOES" data-f="int"></div><div class="l">Abstenção T1</div></div>
+    <div class="kpi"><div class="v" data-v="nacional.turnout.t2.QT_ABSTENCOES" data-f="int"></div><div class="l">Abstenção T2</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Votos por candidato</h3><div class="sub">1º turno: todos os candidatos; 2º turno: finalistas.</div><div class="chart" id="cPlacar"></div></div>
+    <div class="card"><h3>Para onde foi cada eleitor apto</h3><div class="sub">Composição do eleitorado (158,7 milhões de aptos nos dois turnos).</div><div class="chart" id="cComposicao"></div></div>
+  </div>
+</section>
+
+<section id="aritmetica">
+  <h2><span class="n">2</span>A aritmética exata da virada</h2>
+  <p class="lead">Isto não é estimativa: é soma e subtração dos totais oficiais. O que os finalistas ganharam do 1º para o 2º turno tem de sair de três lugares: votos dos eliminados, brancos e nulos que deixaram de existir e eleitores a mais comparecendo. A identidade fecha em 100% dos municípios.</p>
+  <div class="grid2">
+    <div class="card"><h3>De onde veio o "pote" de votos em disputa</h3><div class="sub">Total: <b data-v="nacional.pool" data-f="int"></b> votos.</div><div class="chart" id="cPote"></div></div>
+    <div class="card"><h3>Margem Lula − Flávio: do 1º ao 2º turno</h3><div class="sub">Deslocamento de <b data-v="nacional.deslocamento_margem" data-f="int"></b> votos.</div><div class="chart" id="cMargem"></div></div>
+  </div>
+  <div class="grid2" style="margin-top:1rem">
+    <div class="card"><h3>% do pote que cada um tomou</h3><div class="sub">A linha amarela é o mínimo que Lula precisava para virar.</div><div class="chart" id="cTomada"></div></div>
+    <div class="box info" style="margin:0">
+      <h3>Como ler</h3>
+      <ul>
+        <li>Pote = <span data-v="nacional.eliminados_t1" data-f="int"></span> (eliminados) + <span data-v="nacional.queda_bn" data-f="int"></span> (brancos e nulos a menos) + <span data-v="nacional.delta_comparecimento" data-f="int"></span> (comparecimento a mais).</li>
+        <li>Para virar, Lula precisava tirar do pote <b>a diferença do 1º turno mais metade do resto</b>, ou seja, <span data-v="nacional.share_pool_necessario_lula" data-f="pct"></span> do pote.</li>
+        <li>Ele tirou <b><span data-v="nacional.share_pool_lula" data-f="pct"></span></b>: quase 3 de cada 4 votos em disputa.</li>
+        <li>Se o pote tivesse se dividido como no 1º turno entre os dois, <b>Flávio venceria</b> com cerca de 51,2%. O excesso do Lula sobre esse cenário neutro foi de 3,68 milhões de votos.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="abstencao">
+  <h2><span class="n">3</span>Abstenções retomadas</h2>
+  <p class="lead">O número oficial é <b>líquido</b>: entrou gente que não tinha votado e saiu gente que tinha. Comparando cada urna com ela mesma, dá para saber o <b>mínimo</b> de cada movimento. Em quem os retornantes votaram só pode ser estimado por modelo.</p>
+  <div class="kpis">
+    <div class="kpi ok"><div class="v" data-v="nacional.retornos_min_secao" data-f="int"></div><div class="l">Mínimo de eleitores a mais (soma das urnas em que o comparecimento subiu)</div></div>
+    <div class="kpi warn"><div class="v" data-v="nacional.saidas_min_secao" data-f="int"></div><div class="l">Mínimo de eleitores que deixaram de votar (urnas em que caiu)</div></div>
+    <div class="kpi"><div class="v" data-v="nacional.delta_comparecimento" data-f="int"></div><div class="l">Saldo líquido oficial</div></div>
+    <div class="kpi"><div class="v" id="kRetornoPct"></div><div class="l">Retorno mínimo como % das abstenções do 1º turno</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Abstenção por UF: 1º × 2º turno</h3><div class="sub">Taxa de comparecimento (%).</div><div class="chart tall" id="cCompUF"></div></div>
+    <div class="card"><h3>Para onde foram os abstencionistas do 1º turno</h3><div class="sub">Estimativa por modelo (Goodman com restrições), com IC de 95%.</div><div class="chart tall" id="cAbstDestino"></div></div>
+  </div>
+  <div class="box warn">
+    <h3>Cuidado na leitura</h3>
+    <ul>
+      <li>O mínimo de <span data-v="nacional.retornos_min_secao" data-f="int"></span> vem de <span data-v="nacional.secoes_comp_subiu" data-f="int"></span> urnas com comparecimento maior. O número real é maior, porque dentro da mesma urna alguém pode ter saído e outro entrado.</li>
+      <li>Parte disso pode ser mudança de seção: 11% das seções tiveram diferença de aptos entre turnos, embora o total de aptos do país seja idêntico.</li>
+      <li>O modelo atribui quase todo o retorno ao Lula ou a brancos e nulos, e praticamente nada ao Flávio. É uma estimativa ecológica (feita com totais, não com eleitores individuais), com margem de erro real maior que o intervalo mostrado.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="transferencia">
+  <h2><span class="n">4</span>Transferência de votos (estimativa)</h2>
+  <p class="lead">Os totais por município permitem estimar, em média, para onde foi cada grupo do 1º turno. É uma <b>inferência ecológica</b>: descreve padrões agregados, não o voto de pessoas. Abaixo, o modelo principal (Goodman com restrições, coeficientes entre 0 e 1) e os limites matemáticos possíveis (Duncan–Davis).</p>
+  <div class="card"><h3>Fluxo estimado 1º turno → 2º turno</h3><div class="sub">Largura proporcional aos votos estimados. Retenção dos finalistas incluída.</div><div class="chart xtall" id="cSankey"></div></div>
+  <div class="card" style="margin-top:1rem"><h3>Tabela de transferência</h3><div class="sub">Estimativa = fração da origem que foi para o destino; IC = bootstrap 400×; limites = mínimo e máximo matematicamente compatíveis com os totais.</div>
+    <div class="tbl" id="tFluxo"></div></div>
+  <div class="box info">
+    <h3>Leitura robusta (o que não depende de detalhe do modelo)</h3>
+    <ul>
+      <li><b>Augusto Cury</b> (3,45 milhões) foi o maior doador líquido para o Lula, ou para branco e nulo; quase nada foi para o Flávio.</li>
+      <li><b>Renan Santos e Caiado</b> favoreceram o Flávio (cerca de 2/3 e cerca de 55%), mas são grupos menores.</li>
+      <li><b>Brancos e nulos do 1º turno</b> diminuíram 1,82 milhão, e o modelo associa essa queda ao Lula. A estimativa individual é frágil: a versão sem restrições dá valores acima de 100%, sinal de colinearidade, ou seja, as variáveis andam juntas e o modelo não consegue separá-las bem.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="troca">
+  <h2><span class="n">5</span>Houve troca direta Flávio ↔ Lula?</h2>
+  <div class="grid2">
+    <div class="card"><h3>Limites matemáticos da troca direta</h3><div class="sub">Faixa de valores compatível com os totais por município (Duncan–Davis).</div><div class="chart" id="cTroca"></div></div>
+    <div class="box info" style="margin:0">
+      <h3>Resposta</h3>
+      <ul>
+        <li><b>Mínimo necessário: zero.</b> O pote de votos soltos basta para explicar a virada inteira.</li>
+        <li><b>Máximo compatível com os totais:</b> é muito alto nos dois sentidos, porque os dados agregados não restringem isso.</li>
+        <li>O modelo estima <b>retenção de cerca de 100%</b> dos dois finalistas. É uma hipótese do modelo, não uma observação.</li>
+        <li>Cenário extremo, só para referência: se a virada viesse toda de troca direta, seriam <b><span data-v="nacional.troca_direta_hipotetica" data-f="int"></span></b> eleitores mudando de lado. Nada nos dados exige isso.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="uf">
+  <h2><span class="n">6</span>Estados</h2>
+  <div class="grid2">
+    <div class="card"><h3>Lula: % dos válidos no 1º e no 2º turno</h3><div class="chart tall" id="cUFLula"></div></div>
+    <div class="card"><h3>Excesso do Lula sobre o cenário neutro (p.p.)</h3><div class="sub">Positivo em todas as UFs: um fenômeno nacional, não localizado.</div><div class="chart tall" id="cUFExcesso"></div></div>
+  </div>
+  <div class="card" style="margin-top:1rem"><h3>Tabela por UF</h3><div class="tbl" id="tUF"></div></div>
+</section>
+
+<section id="municipios">
+  <h2><span class="n">7</span>Municípios e viradas locais</h2>
+  <div class="kpis">
+    <div class="kpi lula"><div class="v" data-v="municipios.n_flavio_lula" data-f="int"></div><div class="l">Municípios que viraram de Flávio para Lula</div></div>
+    <div class="kpi flavio"><div class="v" data-v="municipios.n_lula_flavio" data-f="int"></div><div class="l">Municípios que viraram de Lula para Flávio</div></div>
+    <div class="kpi"><div class="v" data-v="municipios.aptos_virados" data-f="int"></div><div class="l">Eleitores aptos nos municípios que viraram</div></div>
+    <div class="kpi"><div class="v" data-v="municipios.quedas_flavio" data-f="int"></div><div class="l">Municípios em que o Flávio perdeu votos (Lula: <span data-v="municipios.quedas_lula" data-f="int"></span>)</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Δ comparecimento × Δ participação do Lula</h3><div class="sub">Cada ponto é um município; tamanho = eleitores aptos.</div><div class="chart tall" id="cMunScatter"></div></div>
+    <div class="card"><h3>Maiores municípios que viraram</h3><div class="tbl" id="tViradas" style="max-height:440px"></div></div>
+  </div>
+</section>
+
+<section id="urnas">
+  <h2><span class="n">8</span>Urnas zeradas ou com menos de 10% para o Flávio</h2>
+  <div class="kpis">
+    <div class="kpi warn"><div class="v" data-v="secoes.flavio_t2.zero" data-f="int"></div><div class="l">Urnas com zero voto para Flávio no T2 (T1: <span data-v="secoes.flavio_t1.zero" data-f="int"></span>)</div></div>
+    <div class="kpi warn"><div class="v" data-v="secoes.flavio_t2.lt10" data-f="int"></div><div class="l">Urnas com menos de 10% para Flávio no T2 (T1: <span data-v="secoes.flavio_t1.lt10" data-f="int"></span>)</div></div>
+    <div class="kpi ok"><div class="v" data-v="secoes.lt10_ja_t1" data-f="int"></div><div class="l">Delas, já tinham menos de 10% no 1º turno</div></div>
+    <div class="kpi ok"><div class="v" data-v="secoes.lt10_bruscas" data-f="int"></div><div class="l">Caíram de 20% ou mais para menos de 10%</div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Distribuição das urnas pelo % do Flávio</h3><div class="sub">Curvas do 1º e do 2º turno quase sobrepostas: as urnas baixas já existiam.</div><div class="chart" id="cHist"></div></div>
+    <div class="card"><h3>Onde estão: tipo de local de votação</h3><div class="sub">% das urnas de cada tipo com Flávio abaixo de 10%.</div><div class="chart" id="cTipo"></div></div>
+  </div>
+  <div class="grid2" style="margin-top:1rem">
+    <div class="card"><h3>Impacto no resultado</h3><div class="tbl" id="tImpacto"></div>
+      <p class="muted" style="margin:.6rem .3rem 0;font-size:13px">Mesmo anulando todas essas urnas, um cenário extremo e sem base legal, o resultado não muda.</p></div>
+    <div class="card"><h3>As únicas 4 quedas bruscas</h3><div class="tbl" id="tBruscas"></div></div>
+  </div>
+  <div class="card" style="margin-top:1rem"><h3>Maiores urnas com zero voto para o Flávio</h3><div class="sub">Candidatas naturais para conferir o boletim de urna impresso.</div><div class="tbl" id="tZero"></div></div>
+</section>
+
+<section id="tempo">
+  <h2><span class="n">9</span>Linha do tempo da apuração (2º turno)</h2>
+  <div class="kpis">
+    <div class="kpi warn"><div class="v">116 min</div><div class="l">Sem nenhum boletim recebido (17:07–19:03)</div></div>
+    <div class="kpi"><div class="v" data-v="tempo.bus_min_pico" data-f="int"></div><div class="l">Pico de boletins por minuto (<span data-v="tempo.bus_min_pico_em" data-f="hhmm"></span>)</div></div>
+    <div class="kpi flavio"><div class="v" data-v="tempo.min_margem" data-f="absint"></div><div class="l">Maior vantagem do Flávio na apuração (<span data-v="tempo.min_margem_em" data-f="hhmm"></span>, <span data-v="tempo.min_margem_pct" data-f="pp1"></span>% apurado)</div></div>
+    <div class="kpi lula"><div class="v" data-v="tempo.virada_em" data-f="hhmm"></div><div class="l">Lula volta à frente definitivamente (<span data-v="tempo.virada_pct" data-f="pp1"></span>% apurado)</div></div>
+  </div>
+  <div class="card"><h3>Boletins de urna recebidos por minuto</h3><div class="sub">Os patamares fixos (cerca de 2.800 e cerca de 5.800 por minuto) sugerem limite de capacidade de processamento.</div><div class="chart" id="cBus"></div></div>
+  <div class="grid2" style="margin-top:1rem">
+    <div class="card"><h3>% acumulado de cada candidato</h3><div class="chart" id="cCum"></div></div>
+    <div class="card"><h3>Margem acumulada Lula − Flávio</h3><div class="chart" id="cMarg"></div></div>
+  </div>
+  <div class="grid2" style="margin-top:1rem">
+    <div class="card"><h3>Estabilidade no tempo: resíduo por bloco de 10 minutos</h3><div class="sub">Lula no T2 menos o previsto pelo T1 da mesma urna. Linha verde: o mesmo resíduo, descontando o efeito do estado.</div><div class="chart" id="cRes"></div></div>
+    <div class="card"><h3>Ordem de chegada dos estados</h3><div class="sub">Horário mediano de recepção × % do Lula no estado.</div><div class="chart" id="cOrdem"></div></div>
+  </div>
+  <div class="box info">
+    <h3>Leitura</h3>
+    <ul>
+      <li>A "virada na tela" acontece porque os estados mais favoráveis ao Flávio (Sul e Centro-Oeste) chegaram antes, e o Nordeste e os grandes estados (MG, SP, RJ) chegaram depois.</li>
+      <li>Dentro de cada estado, o primeiro quarto e o último quarto das urnas a chegar têm o mesmo resíduo (<span id="kQuartis"></span>). A tendência ao longo do tempo é de <span data-v="tempo.inclinacao_pp_hora" data-f="pp3"></span> ponto por hora, praticamente zero.</li>
+      <li>Se o perfil das urnas mudasse depois da pausa, as urnas chegadas tarde destoariam das vizinhas do mesmo estado. Isso não acontece.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="anomalias">
+  <h2><span class="n">10</span>Anomalias e validação</h2>
+  <div class="grid2">
+    <div class="card"><h3>Resíduos fora do padrão (q &lt; 0,05)</h3><div class="sub">Sinalizados contra falsos positivos esperados por acaso.</div><div class="tbl" id="tAnom"></div></div>
+    <div class="card"><h3>Municípios mais fora do padrão</h3><div class="sub">Resíduo em p.p. = tamanho do desvio; studentizado alto em cidade grande não significa desvio grande.</div><div class="tbl" id="tAnomMun"></div></div>
+  </div>
+  <div class="box info">
+    <h3>Validações que passaram</h3>
+    <ul>
+      <li>aptos = comparecimento + abstenções (por seção e município); comparecimento × votos por eleitor = soma dos votos.</li>
+      <li>Nenhuma seção duplicada; 499.248 seções presentes nos dois turnos, 41 não instaladas.</li>
+      <li>Soma das seções = município = UF = Brasil para os finalistas.</li>
+      <li>Ganho do Lula + ganho do Flávio = pote (eliminados + queda de brancos e nulos + Δ comparecimento) em 100% dos municípios.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="conclusao">
+  <h2><span class="n">11</span>Conclusão</h2>
+  <div class="verdict">
+    <div class="card"><h3>Matematicamente</h3>
+      <p>A virada é exata e fecha: <span data-v="nacional.deslocamento_margem" data-f="int"></span> votos de deslocamento na margem, explicados por <span data-v="nacional.pool" data-f="int"></span> votos soltos, dos quais o Lula tomou <span data-v="nacional.share_pool_lula" data-f="pct"></span>. Não falta nem sobra voto em nenhum nível.</p></div>
+    <div class="card"><h3>Cientificamente (transferência)</h3>
+      <p>O padrão mais provável é: finalistas mantêm a base, Cury e os votos não válidos pendem fortemente para o Lula, Renan e Caiado pendem para o Flávio e o retorno de abstencionistas favorece o Lula. A troca direta entre finalistas não pode ser medida com dados agregados.</p></div>
+    <div class="card"><h3>Urnas zeradas</h3>
+      <p>As 106 urnas com zero e as 6.816 abaixo de 10% são redutos que já existiam no 1º turno (aldeias, interior do Norte e do Nordeste). Só 4 tiveram queda brusca. Elas não decidem a eleição: sem elas, o Lula ainda venceria por cerca de 3,3 milhões.</p></div>
+    <div class="card"><h3>Tempo de apuração</h3>
+      <p>A virada vista na tela é efeito da ordem de chegada dos estados. O comportamento das urnas é constante ao longo da noite. <b>A pausa de 116 minutos e os patamares de recepção são fatos operacionais reais que pedem explicação oficial</b>, mas não mudaram o perfil dos votos.</p></div>
+  </div>
+  <div class="box answer">
+    <h3>Minha conclusão</h3>
+    <p>Com os dados públicos disponíveis, a eleição é <b>internamente consistente</b>. A virada do Flávio no 1º turno para o Lula no 2º turno se explica pela <b>forte concentração dos votos soltos no Lula</b> (eliminados, brancos e nulos, e eleitores que voltaram a votar), de forma uniforme em todos os estados. Não é necessário invocar troca direta entre finalistas para fechar as contas. Pontos que chamam atenção à primeira vista (urnas com zero para um finalista, a virada na tela durante a apuração) encontram explicação nos próprios dados. O fato operacional que continua sem explicação nos arquivos públicos é a pausa nacional na recepção de boletins.</p>
+  </div>
+  <div class="box warn">
+    <h3>Limites deste estudo e próximos passos</h3>
+    <ul>
+      <li>Inferência ecológica: as transferências descrevem padrões agregados, não pessoas.</li>
+      <li>Os dados agregados não substituem a conferência documental: o passo definitivo é confrontar os boletins de urna impressos das seções listadas e os registros das urnas.</li>
+      <li>Pergunta operacional ao TSE: o motivo da janela 17:07–19:03 sem recepção e a política de enfileiramento da totalização.</li>
+      <li>Estatística descreve padrões e raridades; não substitui auditoria documental.</li>
+    </ul>
+  </div>
+</section>
+</main>
+<footer>Fonte: TSE — Dados Abertos (votação por seção, detalhe da votação por seção, por município e zona, boletins de urna). Pipeline <code>analysis/src/tse</code>; gerado por <code>python -m tse.report.estudo</code>.</footer>
+<div id="tplAviso" style="display:none;position:fixed;inset:auto 1rem 1rem 1rem;z-index:99;background:#5a1d24;border:1px solid #e35d6a;padding:1rem;border-radius:10px">
+  Este arquivo é o molde. Abra o relatório gerado: <code>analysis/outputs/estudo_t1_t2.html</code> (gere com <code>python -m tse.report.estudo</code>).
+</div>
+<script>if (typeof Plotly === "undefined") document.getElementById("tplAviso").style.display = "block";</script>
+<script>window.ESTUDO = __DATA__;</script>
+<script>
+__JS__
+</script>
+</body>
+</html>

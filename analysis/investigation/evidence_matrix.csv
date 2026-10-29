@@ -1,0 +1,8 @@
+questao,status,fonte,classe
+Identidades de balanço fecham?,sim_com_correcoes,val_resumo,documental
+Placar Presidente munzona = seção?,a_verificar_no_review,desc_placar_presidente,documental
+Há BU/hash/log locais?,nao,downloads/,forense
+Timestamps de recepção disponíveis?,sim_parcial,detalhe_votacao_secao.DT_RECEBIMENTO_BU_HOR_TSE,documental
+Janela pós-19h altera margem de forma material?,ver inv_impacto_margem,inv_impacto_margem,estatistico
+Seções unânimes = irregularidade?,nao_inferivel,anom_secao_unanime,estatistico
+Transferência A→B individual observável?,nao,swing_*,estatistico

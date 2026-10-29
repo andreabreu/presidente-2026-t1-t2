@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Estudo Presidente 2026 — 1º × 2º turno</title>
+<meta name="description" content="Análise dos dados abertos do TSE: virada, transferência de votos, abstenções e linha do tempo da apuração."/>
+<style>
+:root{--bg:#0b1220;--card:#131f33;--line:#26364f;--text:#e6edf7;--muted:#91a3bd;--accent:#7fb6ff}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:radial-gradient(900px 420px at 12% -10%,#24345a 0,transparent 55%),linear-gradient(180deg,#101b30,#0b1220);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:720px;margin:0 auto;padding:4.5rem 1.4rem 3rem}
+h1{margin:0 0 .6rem;font-size:clamp(1.7rem,4vw,2.2rem);letter-spacing:-.02em}
+p{color:var(--muted);margin:.45rem 0 1.1rem;max-width:38rem}
+.cta{display:inline-flex;align-items:center;gap:.5rem;background:#1c2b45;color:var(--text);text-decoration:none;border:1px solid var(--line);border-radius:10px;padding:.85rem 1.2rem;font-weight:600}
+.cta:hover{border-color:var(--accent);color:#fff}
+.links{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.9rem 1.4rem}
+.links a{color:var(--accent);text-decoration:none;font-size:14px}
+.links a:hover{text-decoration:underline}
+footer{margin-top:3rem;color:#6d7f99;font-size:13px}
+code{font-size:.92em}
+</style>
+</head>
+<body>
+<main>
+  <h1>Presidente 2026 — 1º × 2º turno</h1>
+  <p>Estudo com os dados abertos do TSE: placar, aritmética da virada, transferência de votos, abstenções retomadas, urnas concentradas e linha do tempo da apuração.</p>
+  <a class="cta" href="estudo_t1_t2.html">Abrir o estudo interativo →</a>
+  <div class="links">
+    <a href="https://dadosabertos.tse.jus.br/">Fonte: TSE Dados Abertos</a>
+  </div>
+  <footer>
+    HTML estático gerado por <code>python -m tse.report.estudo</code>. Sem servidor e sem CDN.
+  </footer>
+</main>
+</body>
+</html>

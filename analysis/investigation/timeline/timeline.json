@@ -1,0 +1,50 @@
+{
+  "generated_at": "2026-10-29T01:28:19.128106+00:00",
+  "events": [
+    {
+      "id": "janela_empirica_t2",
+      "when": "2026-10-25",
+      "label": "Janela empírica de recepção BU (2º turno) observada nos CSVs",
+      "status": "confirmado_nos_dados",
+      "source_id": "inv_janela_suspensao",
+      "payload": {
+        "NR_TURNO": 1,
+        "nivel": "fuso",
+        "grupo": "UTC-5 (AC)",
+        "n_secoes_grupo": 2270,
+        "gap_inicio": "2026-10-04 19:26:41",
+        "gap_fim": "2026-10-04 19:59:25",
+        "duracao_s": 1964.0,
+        "duracao_min": 32.733333333333334,
+        "n_recebidas_5min_antes": 11,
+        "n_recebidas_5min_depois": 23,
+        "n_recebidas_antes_gap": 2226,
+        "n_recebidas_apos_gap": 44,
+        "primeira_recepcao": "2026-10-04 17:08:44",
+        "ultima_recepcao": "2026-10-04 20:53:12"
+      }
+    },
+    {
+      "id": "pos_19h_resumo",
+      "when": "2026-10-25T19:00:00-03:00",
+      "label": "Resumo de seções com timestamp após 19h (2º turno)",
+      "status": "confirmado_nos_dados",
+      "source_id": "inv_secoes_pos_19h_resumo",
+      "n_rows": 6
+    },
+    {
+      "id": "flow_bu",
+      "when": "2026-10-29T01:23:08.124495+00:00",
+      "label": "Fluxograma documental do caminho do BU até a totalização",
+      "status": "documental",
+      "source": "investigation/data/flow_bu.json",
+      "nodes": 9
+    },
+    {
+      "id": "limitacao_bu",
+      "when": "2026-10-29T01:28:19.128094+00:00",
+      "label": "BUs/logs/hashes não baixados — investigação temporal não é auditoria forense de urna",
+      "status": "limitacao"
+    }
+  ]
+}

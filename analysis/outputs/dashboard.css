@@ -1,0 +1,25 @@
+
+:root{--bg:#0b1220;--card:#152238;--line:#2a3b55;--text:#e8eef7;--muted:#93a4bd;--accent:#4da3ff;--ok:#3ecf8e;--warn:#f0b429}
+*{box-sizing:border-box}html,body{margin:0;max-width:100%;overflow-x:hidden;font:14px/1.45 system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--text)}
+header{padding:1rem 1.25rem;border-bottom:1px solid var(--line);background:linear-gradient(120deg,#122038,#0b1220 55%,#1a1430)}
+header h1{margin:0;font-size:1.35rem}header p{margin:.35rem 0 0;color:var(--muted)}
+.filters{display:flex;flex-wrap:wrap;gap:.6rem;padding:.85rem 1.25rem;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0f1828f2;backdrop-filter:blur(8px);z-index:20;max-width:100%}
+.filters label{display:flex;flex-direction:column;gap:.2rem;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;max-width:100%}
+.filters select,.filters input{width:180px;max-width:min(180px,42vw);background:#0b1220;border:1px solid var(--line);color:var(--text);padding:.45rem .55rem;border-radius:8px}
+.filters #fMun,.filters #fSearch{width:220px;max-width:min(220px,70vw)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.75rem;padding:1rem 1.25rem}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.85rem}
+.kpi .v{font-size:1.35rem;font-weight:700}.kpi .l{color:var(--muted);font-size:12px;margin-top:.15rem}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:0 1.25rem 1.25rem}
+@media(max-width:1100px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.5rem .5rem .75rem;min-height:360px;max-width:100%;overflow-x:clip}
+.card h2{margin:.35rem .5rem .1rem;font-size:.95rem}
+.note{margin:0 1.25rem 1rem;padding:.85rem 1rem;border-radius:10px;background:#1c2a18;border:1px solid #355533;color:#cfe8c8;font-size:13px}
+.chart{width:100%;max-width:100%;height:320px;position:relative}
+.full{grid-column:1/-1}
+.full .chart{height:auto;min-height:320px}
+table.dt{width:100%;border-collapse:collapse;font-size:12px}
+table.dt th,table.dt td{padding:.35rem .45rem;border-bottom:1px solid var(--line);text-align:left}
+table.dt th{position:sticky;top:0;background:#1b2b44}
+.tblwrap{max-height:360px;overflow:auto;margin:.5rem}
+footer{padding:1rem 1.25rem 2rem;color:var(--muted);font-size:12px}

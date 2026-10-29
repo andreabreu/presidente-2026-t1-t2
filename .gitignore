@@ -1,0 +1,44 @@
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+.playwright-mcp/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+analysis/.venv/
+
+# Dados brutos e intermediários (GBs) — baixe via pipeline
+downloads/
+!downloads/README.md
+analysis/data/interim/
+analysis/data/.duckdb_tmp/
+analysis/data/external/raw/
+*.parquet
+*.duckdb
+*.duckdb.wal
+
+# Artefatos pesados gerados (mantemos só o estudo em docs/ para Pages)
+analysis/outputs/tables/
+analysis/outputs/figures/
+analysis/outputs/dashboard_data.js
+analysis/outputs/dashboard_data.json
+analysis/outputs/report.html
+analysis/outputs/plotly-*.min.js
+analysis/logs/
+analysis/investigation/sources/raw/
+analysis/investigation/data/
+
+# Segredos
+.env
+.env.*
+*.pem
+credentials*.json

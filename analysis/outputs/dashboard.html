@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dashboard TSE 2026 — Presidente</title>
+<script src="plotly-2.35.2.min.js"></script>
+<link rel="stylesheet" href="dashboard.css"/>
+</head>
+<body>
+<header>
+  <h1>Dashboard Presidente 2026 — T1 / T2 / Viradas / Abstenções</h1>
+  <p>Finalistas 2º turno: <strong>LULA</strong> × <strong>FLAVIO BOLSONARO</strong>. Filtros em cascata UF → município. Proxy de “abstenção que votou” = queda de abstenções T1→T2 (agregado).</p>
+</header>
+<section class="filters">
+  <label>Turno view
+    <select id="fTurno"><option value="ambos">T1 e T2</option><option value="1">Só T1</option><option value="2">Só T2</option></select>
+  </label>
+  <label>Cenário virada
+    <select id="fCenario"><option value="todos">Todos</option><option value="com_virada">Com virada finalistas</option><option value="sem_virada">Sem virada</option></select>
+  </label>
+  <label>UF
+    <select id="fUF"><option value="">Brasil (todas)</option></select>
+  </label>
+  <label>Município
+    <select id="fMun"><option value="">Todos municípios</option></select>
+  </label>
+  <label>Busca município
+    <input id="fSearch" type="search" placeholder="Digite parte do nome"/>
+  </label>
+  <label>Porte
+    <select id="fPorte"><option value="">Todos</option></select>
+  </label>
+  <label>Top N
+    <select id="fTop"><option>30</option><option>50</option><option selected>80</option><option>150</option><option>300</option></select>
+  </label>
+  <label>Ordenar por
+    <select id="fSort">
+      <option value="abstencao_que_votou_proxy">Abstenção→voto (proxy)</option>
+      <option value="delta_comp">Δ comparecimento</option>
+      <option value="delta_share_a_pp">Δ share finalista A (p.p.)</option>
+      <option value="delta_abs_a">Δ votos A</option>
+      <option value="taxa_comp_t2">Taxa comparecimento T2</option>
+      <option value="abstencao_t1">Abstenção T1</option>
+    </select>
+  </label>
+</section>
+<section class="kpis" id="kpis"></section>
+<section class="note" id="caveats"></section>
+<main class="grid">
+  <div class="card"><h2>Placar nacional por turno</h2><div class="chart" id="cPlacar"></div></div>
+  <div class="card"><h2>Comparecimento × abstenção por UF</h2><div class="chart" id="cUfTurnout"></div></div>
+  <div class="card"><h2>Quem “voltou a votar” (proxy) por UF</h2><div class="chart" id="cUfAbstBack"></div></div>
+  <div class="card"><h2>Δ share finalista A (p.p.) por UF</h2><div class="chart" id="cUfSwing"></div></div>
+  <div class="card"><h2>Viradas de UF (vencedor T1 ≠ T2)</h2><div class="chart" id="cUfFlip"></div></div>
+  <div class="card"><h2>Fluxo ecológico aparente (baseline)</h2><div class="chart" id="cFluxo"></div></div>
+  <div class="card full"><h2>Municípios — ranking interativo</h2><div class="chart" id="cMunRank"></div></div>
+  <div class="card"><h2>Scatter: Δ comparecimento × Δ share A</h2><div class="chart" id="cScatter"></div></div>
+  <div class="card"><h2>Scatter: abstenção T1 × share A no T2</h2><div class="chart" id="cScatter2"></div></div>
+  <div class="card full"><h2>Tabela filtrada (municípios)</h2><div class="tblwrap" id="tbl"></div></div>
+</main>
+<footer>Gerado por <code>python -m tse.dashboard</code>. Sirva via HTTP local (não abra só como file:// se o browser bloquear fetch). Dados: TSE Dados Abertos.</footer>
+<script src="dashboard_data.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

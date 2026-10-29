@@ -1,0 +1,183 @@
+{
+  "generated_at": "2026-10-29T00:19:10.998449+00:00",
+  "python": "3.12.13 (main, Mar  3 2026, 12:39:30) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "seed": 20261028,
+  "libraries": {
+    "duckdb": "2.0.0",
+    "polars": "2.1.0",
+    "pandas": "3.1.0",
+    "pyarrow": "26.0.0",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "statsmodels": "0.15.0",
+    "plotly": "7.1.0"
+  },
+  "inputs": [
+    {
+      "path": "downloads/candidatos-2026/consulta_cand_2026.zip",
+      "bytes": 3244295,
+      "sha256": "db26eb7bd1df767986ec0a6c2a4bf486332162dee5e7ec9886350028ff8181b0"
+    },
+    {
+      "path": "downloads/resultados-2026/detalhe_votacao_munzona_2026.zip",
+      "bytes": 3154784,
+      "sha256": "af04e61cd0aa40c9d88b6deef50e3c2fa6186c7ae6d4092c7d4a0759a1afd87a"
+    },
+    {
+      "path": "downloads/resultados-2026/detalhe_votacao_secao_2026.zip",
+      "bytes": 234357769,
+      "sha256": "8ef9ce3a85cde260471faf7a83a9b4f5ccf3993fdda942aacaa658574344789c"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_candidato_munzona_2026.zip",
+      "bytes": 471167197,
+      "sha256": "3a774dc7a40b05b0be281dc2ad49cca5c86822e5578f7c2fecc76ecd0545896a"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_partido_munzona_2026.zip",
+      "bytes": 22717590,
+      "sha256": "9a0577b12443f86af30bee1d6e6f399cf047939ed4cad6b0a9152f1e02048204"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_AC.zip",
+      "bytes": 7981955,
+      "sha256": "fa0bc4a0e8ae41261a4d17f301f0dfd737329d911f6b86fe610bfab33794033f"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_AL.zip",
+      "bytes": 21217478,
+      "sha256": "08a858c646212163ac247aa649086c39eecfebc8d7f7729c2e4e73ce52616ad9"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_AM.zip",
+      "bytes": 37671588,
+      "sha256": "9c80cb7731e69496679ff3e831033944594551c2530a1dcd5ea51120ab035460"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_AP.zip",
+      "bytes": 5958741,
+      "sha256": "3b9996b97dccca0f37bdb042eef1c478eae071508e6c52c6913ac2991cf3dca3"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_BA.zip",
+      "bytes": 171034784,
+      "sha256": "fe19bd5afaf13f75a8f8569d89df293934577d0989e962fd9f0ee08c70669339"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_BR.zip",
+      "bytes": 241891087,
+      "sha256": "c928321f63f2d095706fca73d4607c048d2ada23bda6876455d6911aaf1bc9c1"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_CE.zip",
+      "bytes": 103120316,
+      "sha256": "679a618d80fdf85035c020ced788412f3d5b67e20dd616a0d6d75aa5e8e027a4"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_DF.zip",
+      "bytes": 35961696,
+      "sha256": "d1c189f728bb08ca5db88f1d9f209722880f4ab9dfd2778c7d3dfe8be107d8b9"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_ES.zip",
+      "bytes": 36106147,
+      "sha256": "10434c669b9ef7a20cde25545f8db78303b2a0306594df253e64f562bb6cc8b3"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_GO.zip",
+      "bytes": 83816451,
+      "sha256": "b82316c58e57139e3db371b6d4669a93d5439eabbb8abebe9cbd02e8cbd295ee"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_MA.zip",
+      "bytes": 68021627,
+      "sha256": "3e39391bb6c7a8ca1513d929335aab88a4166328d13aa3e772c545385301628b"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_MG.zip",
+      "bytes": 267625809,
+      "sha256": "4d6cda601ab8127d0c7ef91558243e81d5f82ac23ce94f65891fe6cca5c1f868"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_MS.zip",
+      "bytes": 22659531,
+      "sha256": "5a67c6e9d2ae5997c7ce535abea49c35feb97089cebf026136ac4d6e9d922c84"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_MT.zip",
+      "bytes": 31060799,
+      "sha256": "3d91f38b185070a085e0e168de501a14f0b2bdbf072a5122e3456b2ea78a1acd"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_PA.zip",
+      "bytes": 90146357,
+      "sha256": "76fc1734ad896851c130dfee728eb17afd00e2949b6e9ccc30ae076be4a7114a"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_PB.zip",
+      "bytes": 37422947,
+      "sha256": "c2a3a9f3434d8267857b4d278ccc7f541e5bd8a2e8433f9d510215ada2bcbc75"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_PE.zip",
+      "bytes": 105913869,
+      "sha256": "155edc0b66093549b6adce20bf321a73b8a73782c6eaa47ef22a50a639623e03"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_PI.zip",
+      "bytes": 32293246,
+      "sha256": "5ed5696d80bea4cf828c1b3f708b6db642636f8fe30cb641ef355877a68885a9"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_PR.zip",
+      "bytes": 152428338,
+      "sha256": "530d6d964ec460402b1dcaec8e0d128bdf9b53ded2e444ebe7c69900889e618e"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_RJ.zip",
+      "bytes": 296106129,
+      "sha256": "ec93c020ae1f0088216de92e5acc5d3211aefaf1fa589b961132bbf471ee3cf5"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_RN.zip",
+      "bytes": 26162748,
+      "sha256": "5d4866393b97b5e0b48e31dc0907a073718c00dfdfbf149d530d80f8c0e6789c"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_RO.zip",
+      "bytes": 11526977,
+      "sha256": "6173a1e4141c7ef2e51788832ede50a4dec4b2d9ae0c0f8c4111bcfa5a036fed"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_RR.zip",
+      "bytes": 5461444,
+      "sha256": "cc523589a5738f4549bc66f1119c6285d2b3f022c800f6071f6e92376aa266a6"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_RS.zip",
+      "bytes": 149832038,
+      "sha256": "35f690742c8bb94c40e04762cf51ce0069be1363458e29b276df9aab4c599919"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_SC.zip",
+      "bytes": 82014603,
+      "sha256": "ee3fcad42710bec1203154c4bf7e481cf9e9fdf0e5226f24f596727d5995cba9"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_SE.zip",
+      "bytes": 19756325,
+      "sha256": "e4b77b8db4b173965bba72cbcd3ba1cbfd6173bab3146d5a573ab9685fed2829"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_SP.zip",
+      "bytes": 808337068,
+      "sha256": "3c6693ce7bb338a865c9bc9d444504213a56d0d8518dbe39e310c397da57b977"
+    },
+    {
+      "path": "downloads/resultados-2026/votacao_secao_2026_TO.zip",
+      "bytes": 13707414,
+      "sha256": "ace34f1c05e44efebb0ff77bf6232de585d3a4275e8ab7be65c79c84d69bed82"
+    }
+  ]
+}
