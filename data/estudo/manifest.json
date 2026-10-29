@@ -1,0 +1,19 @@
+{
+  "descricao": "Tabelas e payload do estudo Presidente 2026 (1º × 2º turno).",
+  "fonte": "https://dadosabertos.tse.jus.br/dataset/resultados-2026",
+  "arquivos": [
+    "README.md",
+    "desc_placar_presidente.csv",
+    "desc_vencedor_presidente_uf.csv",
+    "estudo_payload.json",
+    "manifest.json",
+    "swing_baseline_comparacao.csv",
+    "swing_fluxo_matriz.csv",
+    "swing_residuos_flag.csv",
+    "swing_residuos_resumo.csv",
+    "swing_saldos_mun.csv",
+    "swing_saldos_secao.parquet",
+    "t2_apuracao_10min.csv",
+    "turnout_uf.csv"
+  ]
+}

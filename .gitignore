@@ -22,9 +22,13 @@ downloads/
 analysis/data/interim/
 analysis/data/.duckdb_tmp/
 analysis/data/external/raw/
-*.parquet
 *.duckdb
 *.duckdb.wal
+
+# Parquets pesados do pipeline (mantém data/estudo/)
+analysis/data/**/*.parquet
+analysis/outputs/**/*.parquet
+!data/estudo/
 
 # Artefatos pesados gerados (mantemos só o estudo em docs/ para Pages)
 analysis/outputs/tables/

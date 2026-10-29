@@ -7,7 +7,7 @@ import re
 
 import pytest
 
-from tse.report.estudo import OUT_HTML, PAGES_HTML, PLOTLY_JS, build, build_payload
+from tse.report.estudo import ESTUDO_DATA_DIR, OUT_HTML, PAGES_HTML, PLOTLY_JS, build, build_payload
 
 
 @pytest.fixture(scope="module")
@@ -64,3 +64,6 @@ def test_html_gerado(payload):  # noqa: ARG001
     assert "{...}" not in html.replace(PLOTLY_JS.read_text(encoding="utf-8"), "")
     assert PAGES_HTML.is_file()
     assert PAGES_HTML.read_text(encoding="utf-8") == html
+    assert (ESTUDO_DATA_DIR / "estudo_payload.json").is_file()
+    assert (ESTUDO_DATA_DIR / "swing_saldos_secao.parquet").is_file()
+    assert (ESTUDO_DATA_DIR / "desc_placar_presidente.csv").is_file()

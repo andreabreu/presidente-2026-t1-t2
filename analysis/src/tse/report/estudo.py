@@ -24,6 +24,18 @@ INTERIM = ANALYSIS_ROOT / "data" / "interim"
 OUT_HTML = ANALYSIS_ROOT / "outputs" / "estudo_t1_t2.html"
 PAGES_DIR = ANALYSIS_ROOT.parent / "docs"
 PAGES_HTML = PAGES_DIR / "estudo_t1_t2.html"
+ESTUDO_DATA_DIR = ANALYSIS_ROOT.parent / "data" / "estudo"
+ESTUDO_TABLE_CSVS = (
+    "desc_placar_presidente",
+    "turnout_uf",
+    "swing_baseline_comparacao",
+    "desc_vencedor_presidente_uf",
+    "swing_fluxo_matriz",
+    "swing_residuos_resumo",
+    "swing_residuos_flag",
+    "swing_saldos_mun",
+    "t2_apuracao_10min",
+)
 
 ORIGEM_LABEL = {
     "t1_13_lula": "Lula (T1)",
@@ -410,6 +422,42 @@ def build_payload() -> dict:
     return _clean(payload)
 
 
+def export_estudo_data(payload: dict) -> Path:
+    """Pacote enxuto em data/estudo/ (CSVs + secao parquet + payload JSON)."""
+    import shutil
+
+    ESTUDO_DATA_DIR.mkdir(parents=True, exist_ok=True)
+    td = tables_dir()
+    for name in ESTUDO_TABLE_CSVS:
+        src_csv = td / f"{name}.csv"
+        dst = ESTUDO_DATA_DIR / f"{name}.csv"
+        if src_csv.is_file() and src_csv.stat().st_size > 2048:
+            shutil.copy2(src_csv, dst)
+        else:
+            _t(name).to_csv(dst, index=False)
+    secao_pq = td / "swing_saldos_secao.parquet"
+    if secao_pq.is_file():
+        shutil.copy2(secao_pq, ESTUDO_DATA_DIR / "swing_saldos_secao.parquet")
+    (ESTUDO_DATA_DIR / "estudo_payload.json").write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    files = sorted(p.name for p in ESTUDO_DATA_DIR.iterdir() if p.is_file())
+    (ESTUDO_DATA_DIR / "manifest.json").write_text(
+        json.dumps(
+            {
+                "descricao": "Tabelas e payload do estudo Presidente 2026 (1º × 2º turno).",
+                "fonte": "https://dadosabertos.tse.jus.br/dataset/resultados-2026",
+                "arquivos": files,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
+    logger.info("estudo data: %s (%.1f MB)", ESTUDO_DATA_DIR, sum(p.stat().st_size for p in ESTUDO_DATA_DIR.iterdir()) / 1e6)
+    return ESTUDO_DATA_DIR
+
+
 def build() -> Path:
     payload = build_payload()
     template = (Path(__file__).resolve().parent / "estudo_assets" / "estudo.html").read_text(encoding="utf-8")
@@ -426,6 +474,7 @@ def build() -> Path:
     PAGES_DIR.mkdir(parents=True, exist_ok=True)
     PAGES_HTML.write_text(html, encoding="utf-8")
     (PAGES_DIR / ".nojekyll").write_text("", encoding="utf-8")
+    export_estudo_data(payload)
     logger.info("estudo: %s e %s (%.1f KB)", OUT_HTML, PAGES_HTML, OUT_HTML.stat().st_size / 1e3)
     return OUT_HTML
 
