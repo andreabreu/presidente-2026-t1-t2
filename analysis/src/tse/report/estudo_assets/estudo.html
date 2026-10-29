@@ -55,7 +55,11 @@ th{color:var(--muted);font-weight:600;position:sticky;top:0;background:#16243b}
 .muted{color:var(--muted)}
 .verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.8rem;margin-top:1rem}
 .verdict .card p{margin:.3rem .2rem;color:#c9d5e6;font-size:14px}
-footer{max-width:1240px;margin:0 auto;padding:1.5rem 1.25rem 3rem;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line)}
+footer{max-width:1240px;margin:0 auto;padding:1.5rem 1.25rem 3rem;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:.8rem 1.5rem;align-items:center;justify-content:space-between}
+footer .fonte{flex:1 1 280px;max-width:920px}
+.acessos{display:inline-flex;align-items:center;gap:.55rem;padding:.35rem .7rem;border:1px solid var(--line);border-radius:8px;background:#101b30;color:var(--muted);font-size:12.5px;white-space:nowrap}
+.acessos b{color:var(--text);font-variant-numeric:tabular-nums}
+.acessos img{display:none}
 code{background:#1a2840;padding:.05rem .3rem;border-radius:4px;font-size:12.5px}
 </style>
 </head>
@@ -296,11 +300,34 @@ code{background:#1a2840;padding:.05rem .3rem;border-radius:4px;font-size:12.5px}
   </div>
 </section>
 </main>
-<footer>Fonte: TSE — Dados Abertos (votação por seção, detalhe da votação por seção, por município e zona, boletins de urna). Pipeline <code>analysis/src/tse</code>; gerado por <code>python -m tse.report.estudo</code>.</footer>
+<footer>
+  <div class="fonte">Fonte: TSE — Dados Abertos (votação por seção, detalhe da votação por seção, por município e zona, boletins de urna). Pipeline <code>analysis/src/tse</code>; gerado por <code>python -m tse.report.estudo</code>.</div>
+  <div class="acessos" title="Contador de visitas (GitHub Pages)">Acessos: <b id="acessosNum">—</b></div>
+</footer>
 <div id="tplAviso" style="display:none;position:fixed;inset:auto 1rem 1rem 1rem;z-index:99;background:#5a1d24;border:1px solid #e35d6a;padding:1rem;border-radius:10px">
   Este arquivo é o molde. Abra o relatório gerado: <code>analysis/outputs/estudo_t1_t2.html</code> (gere com <code>python -m tse.report.estudo</code>).
 </div>
 <script>if (typeof Plotly === "undefined") document.getElementById("tplAviso").style.display = "block";</script>
+<script>
+(function () {
+  var el = document.getElementById("acessosNum");
+  if (!el) return;
+  if (!/github\.io$/i.test(location.hostname)) { el.textContent = "local"; return; }
+  var url = "https://hits.sh/andreabreu.github.io/presidente-2026-t1-t2/estudo.svg?view=total&style=flat-square&label=hits&t=" + Date.now();
+  fetch(url, { cache: "no-store" })
+    .then(function (r) { return r.text(); })
+    .then(function (svg) {
+      var m = svg.match(/aria-label="[^"]*?(\d[\d,]*)"/);
+      var n = m ? m[1].replace(/,/g, "") : null;
+      if (!n) {
+        var all = svg.match(/>(\d[\d,]*)<\/text>/g) || [];
+        if (all.length) n = all[all.length - 1].replace(/\D/g, "");
+      }
+      el.textContent = n ? Number(n).toLocaleString("pt-BR") : "—";
+    })
+    .catch(function () { el.textContent = "—"; });
+})();
+</script>
 <script>window.ESTUDO = __DATA__;</script>
 <script>
 __JS__

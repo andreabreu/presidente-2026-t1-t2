@@ -17,7 +17,9 @@ p{color:var(--muted);margin:.45rem 0 1.1rem;max-width:38rem}
 .links{margin-top:2rem;display:flex;flex-wrap:wrap;gap:.9rem 1.4rem}
 .links a{color:var(--accent);text-decoration:none;font-size:14px}
 .links a:hover{text-decoration:underline}
-footer{margin-top:3rem;color:#6d7f99;font-size:13px}
+footer{margin-top:3rem;color:#6d7f99;font-size:13px;display:flex;flex-wrap:wrap;gap:.8rem 1.2rem;align-items:center;justify-content:space-between}
+.acessos{display:inline-flex;align-items:center;gap:.45rem;padding:.35rem .7rem;border:1px solid var(--line);border-radius:8px;background:#101b30;color:var(--muted);font-size:12.5px}
+.acessos b{color:var(--text);font-variant-numeric:tabular-nums}
 code{font-size:.92em}
 </style>
 </head>
@@ -30,8 +32,25 @@ code{font-size:.92em}
     <a href="https://dadosabertos.tse.jus.br/">Fonte: TSE Dados Abertos</a>
   </div>
   <footer>
-    HTML estático gerado por <code>python -m tse.report.estudo</code>. Sem servidor e sem CDN.
+    <span>HTML estático gerado por <code>python -m tse.report.estudo</code>.</span>
+    <span class="acessos">Acessos: <b id="acessosNum">—</b></span>
   </footer>
 </main>
+<script>
+(function () {
+  var el = document.getElementById("acessosNum");
+  if (!el) return;
+  if (!/github\.io$/i.test(location.hostname)) { el.textContent = "local"; return; }
+  var url = "https://hits.sh/andreabreu.github.io/presidente-2026-t1-t2/home.svg?view=total&style=flat-square&label=hits&t=" + Date.now();
+  fetch(url, { cache: "no-store" })
+    .then(function (r) { return r.text(); })
+    .then(function (svg) {
+      var all = svg.match(/>(\d[\d,]*)<\/text>/g) || [];
+      if (!all.length) { el.textContent = "ok"; return; }
+      el.textContent = Number(all[all.length - 1].replace(/\D/g, "")).toLocaleString("pt-BR");
+    })
+    .catch(function () { el.textContent = "—"; });
+})();
+</script>
 </body>
 </html>
